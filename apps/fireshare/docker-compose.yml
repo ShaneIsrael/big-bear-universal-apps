@@ -5,20 +5,13 @@ name: big-bear-fireshare
 
 # Service definitions for the big-bear-fireshare application
 services:
-  # Service name: big-bear-fireshare
-  # The `big-bear-fireshare` service definition
   big-bear-fireshare:
-    # Name of the container
     container_name: big-bear-fireshare
-    # Image to be used for the container
     image: shaneisrael/fireshare:1.5.0
-    # Container restart policy
     restart: unless-stopped
-    # Ports mapping between host and container
     ports:
       # Mapping port 8080 of the host to port 80 of the container
       - "8080:80"
-    # Volumes to be mounted to the container
     volumes:
       # Volume mapping for internal database
       - fireshare_data:/data
@@ -26,7 +19,6 @@ services:
       - fireshare_processed:/processed
       # Volume mapping for source video directory
       - fireshare_videos:/videos
-    # Environment variables
     environment:
       # Admin account username
       - ADMIN_USERNAME=admin
