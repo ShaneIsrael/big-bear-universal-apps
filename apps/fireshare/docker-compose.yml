@@ -1,0 +1,62 @@
+# Configuration for fireshare setup
+
+# Name of the big-bear-fireshare application
+name: big-bear-fireshare
+
+# Service definitions for the big-bear-fireshare application
+services:
+  # Service name: big-bear-fireshare
+  # The `big-bear-fireshare` service definition
+  big-bear-fireshare:
+    # Name of the container
+    container_name: big-bear-fireshare
+    # Image to be used for the container
+    image: shaneisrael/fireshare:1.5.0
+    # Container restart policy
+    restart: unless-stopped
+    # Ports mapping between host and container
+    ports:
+      # Mapping port 8080 of the host to port 80 of the container
+      - "8080:80"
+    # Volumes to be mounted to the container
+    volumes:
+      # Volume mapping for internal database
+      - fireshare_data:/data
+      # Volume mapping for generated metadata and processed files
+      - fireshare_processed:/processed
+      # Volume mapping for source video directory
+      - fireshare_videos:/videos
+    # Environment variables
+    environment:
+      # Admin account username
+      - ADMIN_USERNAME=admin
+      # Admin account password
+      - ADMIN_PASSWORD=admin
+      # Secret key for session signing (replace with a random string)
+      - SECRET_KEY=replace_this_with_some_random_string
+      # How often (in minutes) to scan the videos directory
+      - MINUTES_BETWEEN_VIDEO_SCANS=5
+      # Position in video to generate thumbnail (0-100)
+      - THUMBNAIL_VIDEO_LOCATION=0
+      # Domain for Open Graph link previews (no http/https)
+      - DOMAIN=
+      # User ID
+      - PUID=1000
+      # Group ID
+      - PGID=1000
+      # Enable transcoding (default: false)
+      - ENABLE_TRANSCODING=false
+      # Enable GPU acceleration for transcoding (requires nvidia-docker runtime)
+      - TRANSCODE_GPU=false
+    network_mode: bridge
+
+volumes:
+  fireshare_data:
+    name: fireshare_data
+    driver: local
+  fireshare_processed:
+    name: fireshare_processed
+    driver: local
+  fireshare_videos:
+    name: fireshare_videos
+    driver: local

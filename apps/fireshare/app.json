@@ -1,0 +1,187 @@
+{
+  "spec_version": "1.0",
+  "metadata": {
+    "id": "fireshare",
+    "name": "Fireshare",
+    "description": "Fireshare is a self-hosted video sharing application. Share your game clips, videos, or other media via unique links. Features include public/private feeds, game-based organization with cover art, mobile device support, uploads, view counting, Open Graph metadata, RSS feed, LDAP support, and optional video transcoding.",
+    "tagline": "Self-hosted video sharing via unique links",
+    "version": "1.5.0",
+    "author": "BigBearTechWorld",
+    "developer": "ShaneIsrael",
+    "category": "Media",
+    "license": "GPL-3.0",
+    "homepage": "https://github.com/ShaneIsrael/fireshare",
+    "source": "big-bear-universal",
+    "created": "2026-03-13T00:00:00Z",
+    "updated": "2026-03-13T00:00:00Z"
+  },
+  "visual": {
+    "icon": "https://cdn.jsdelivr.net/gh/selfhst/icons/png/fireshare.png",
+    "thumbnail": "",
+    "screenshots": [],
+    "logo": "https://cdn.jsdelivr.net/gh/selfhst/icons/png/fireshare.png"
+  },
+  "resources": {
+    "youtube": "",
+    "documentation": "https://github.com/ShaneIsrael/fireshare",
+    "repository": "https://github.com/ShaneIsrael/fireshare",
+    "issues": "https://github.com/ShaneIsrael/fireshare/issues",
+    "support": "https://community.bigbeartechworld.com/"
+  },
+  "technical": {
+    "architectures": ["amd64", "arm64"],
+    "platform": "linux",
+    "main_service": "big-bear-fireshare",
+    "default_port": "8080",
+    "main_image": "shaneisrael/fireshare",
+    "compose_file": "docker-compose.yml"
+  },
+  "deployment": {
+    "environment_variables": [
+      {
+        "name": "ADMIN_USERNAME",
+        "default": "admin",
+        "description": "Admin account username",
+        "required": true
+      },
+      {
+        "name": "ADMIN_PASSWORD",
+        "default": "admin",
+        "description": "Admin account password",
+        "required": true
+      },
+      {
+        "name": "SECRET_KEY",
+        "default": "replace_this_with_some_random_string",
+        "description": "Secret key used for session signing. Replace with a random string.",
+        "required": true
+      },
+      {
+        "name": "MINUTES_BETWEEN_VIDEO_SCANS",
+        "default": "5",
+        "description": "How often (in minutes) to scan the videos directory for new files",
+        "required": false
+      },
+      {
+        "name": "THUMBNAIL_VIDEO_LOCATION",
+        "default": "0",
+        "description": "Position in video to generate thumbnail (0-100). 0 = first frame, 50 = middle.",
+        "required": false
+      },
+      {
+        "name": "DOMAIN",
+        "default": "",
+        "description": "Domain your instance is hosted at (no http/https). Required for Open Graph link previews.",
+        "required": false
+      },
+      {
+        "name": "PUID",
+        "default": "1000",
+        "description": "User ID",
+        "required": false
+      },
+      {
+        "name": "PGID",
+        "default": "1000",
+        "description": "Group ID",
+        "required": false
+      },
+      {
+        "name": "ENABLE_TRANSCODING",
+        "default": "false",
+        "description": "Enable transcoding to create 720p and 1080p variants",
+        "required": false
+      },
+      {
+        "name": "TRANSCODE_GPU",
+        "default": "false",
+        "description": "Enable NVIDIA GPU acceleration for transcoding (requires nvidia-docker runtime)",
+        "required": false
+      }
+    ],
+    "volumes": [
+      {
+        "container": "/data",
+        "description": "Internal database storage"
+      },
+      {
+        "container": "/processed",
+        "description": "Generated metadata, posters, and processed files"
+      },
+      {
+        "container": "/videos",
+        "description": "Source video directory to scan and serve"
+      }
+    ],
+    "ports": [
+      {
+        "container": "80",
+        "host": "8080",
+        "protocol": "tcp",
+        "description": "Web UI"
+      }
+    ]
+  },
+  "ui": {
+    "scheme": "http",
+    "path": "",
+    "tips": {}
+  },
+  "compatibility": {
+    "casaos": {
+      "supported": true,
+      "port_map": "8080",
+      "volume_mappings": {
+        "fireshare_data": "/DATA/AppData/$AppID/data",
+        "fireshare_processed": "/DATA/AppData/$AppID/processed"
+      },
+      "port": "8080"
+    },
+    "portainer": {
+      "supported": true,
+      "template_type": 2,
+      "categories": ["Media", "selfhosted"],
+      "administrator_only": false,
+      "port": "8080"
+    },
+    "runtipi": {
+      "supported": true,
+      "tipi_version": 1,
+      "supported_architectures": ["amd64", "arm64"],
+      "volume_mappings": {
+        "fireshare_data": "data",
+        "fireshare_processed": "processed"
+      },
+      "port": "8080"
+    },
+    "dockge": {
+      "supported": true,
+      "file_based": true,
+      "port": "8080"
+    },
+    "cosmos": {
+      "supported": true,
+      "servapp": true,
+      "routes_required": true,
+      "port": "8080"
+    },
+    "umbrel": {
+      "supported": true,
+      "manifest_version": 1,
+      "volume_mappings": {
+        "fireshare_data": "data",
+        "fireshare_processed": "processed"
+      },
+      "port": "8080"
+    }
+  },
+  "tags": [
+    "selfhosted",
+    "docker",
+    "bigbear",
+    "media",
+    "video",
+    "sharing",
+    "gaming"
+  ]
+}
